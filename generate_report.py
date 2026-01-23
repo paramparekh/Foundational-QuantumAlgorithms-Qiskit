@@ -33,78 +33,107 @@ def generate_html():
     <style>
         body {{
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
+            line-height: 1.8;
             color: #333;
-            max_width: 1000px;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 40px;
+        }}
+        .container {{
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
+            background-color: white;
+            padding: 50px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e1e4e8;
+            font-size: 1.1rem;
         }}
         header {{
             background-color: #2c3e50;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
             color: white;
-            padding: 2rem;
+            padding: 3rem;
             text-align: center;
-            border-radius: 8px 8px 0 0;
-            margin-bottom: 2rem;
-        }}
-        h1 {{ margin: 0; font-size: 2.5rem; }}
-        h2 {{ color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-top: 2rem; }}
-        .section {{
-            background: white;
-            padding: 2rem;
-            margin-bottom: 2rem;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }}
+        h1 {{ margin: 0; font-size: 2.8rem; margin-bottom: 10px; font-weight: 700; }}
+        h2 {{ 
+            color: #2c3e50; 
+            border-bottom: 3px solid #3498db; 
+            padding-bottom: 12px; 
+            margin-top: 3rem; 
+            font-size: 1.8rem;
+        }}
+        .section {{ margin-bottom: 3rem; }}
         .results-container {{
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 30px;
             justify-content: center;
-            margin-top: 1rem;
+            margin-top: 2rem;
         }}
         .result-box {{
             flex: 1;
-            min-width: 300px;
+            min-width: 350px;
             text-align: center;
             border: 1px solid #eee;
-            padding: 10px;
-            border-radius: 4px;
+            padding: 25px;
+            border-radius: 10px;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }}
+        .result-box:hover {{
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
         }}
         img {{
             max-width: 100%;
             height: auto;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            background: white;
         }}
-        .description {{ margin-bottom: 1rem; color: #555; text-align: justify; }}
+        .description {{ 
+            margin-bottom: 1.5rem; 
+            color: #444; 
+            text-align: justify;
+            font-size: 1.15rem;
+        }}
         footer {{
             text-align: center;
-            margin-top: 3rem;
-            padding: 1rem;
+            margin-top: 5rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
             color: #777;
-            font-size: 0.9rem;
+            font-size: 1rem;
         }}
         code {{
             background-color: #f1f1f1;
-            padding: 2px 4px;
+            padding: 2px 6px;
             border-radius: 4px;
             font-family: Consolas, monospace;
+            font-size: 0.95em;
+            color: #e83e8c;
         }}
     </style>
 </head>
 <body>
 
+<div class="container">
+
 <header>
     <h1>Foundational Quantum Algorithms</h1>
-    <p>Implementation & Results Report</p>
-    <p style="font-size: 0.9rem; opacity: 0.8">{current_date}</p>
+    <p style="font-size: 1.2rem;">Implementation & Results Report</p>
+    <p style="font-size: 1rem; opacity: 0.9; margin-top: 1rem;">{current_date}</p>
 </header>
 
 <div class="section">
     <h2>Project Overview</h2>
-    <p>This project demonstrates the implementation of five foundational quantum algorithms using <strong>Qiskit</strong>. 
+    <p class="description">This project demonstrates the implementation of five foundational quantum algorithms using <strong>Qiskit</strong>. 
     The algorithms selected cover quantum oracles, search, randomness generation, and key distribution.</p>
 </div>
 
@@ -221,6 +250,8 @@ def generate_html():
 <footer>
     <p>Project implemented on Qiskit | Deployed via GitHub Pages</p>
 </footer>
+
+</div> <!-- End Container -->
 
 </body>
 </html>
