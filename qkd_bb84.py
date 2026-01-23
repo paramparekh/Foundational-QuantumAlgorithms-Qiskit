@@ -62,7 +62,7 @@ def run_bb84(n_bits=20):
     return alice_bits, alice_bases, bob_bits, bob_bases, sifted_key_alice, sifted_key_bob
 
 if __name__ == "__main__":
-    a_bits, a_bases, b_bits, b_bases, key_a, key_b = run_bb84(50)
+    a_bits, a_bases, b_bits, b_bases, key_a, key_b = run_bb84(10)
     print("Alice Bits:  ", a_bits[:20])
     print("Alice Bases: ", a_bases[:20])
     print("Bob Bases:   ", b_bases[:20])
