@@ -2,7 +2,6 @@ import os
 import subprocess
 import datetime
 
-# List of scripts to run
 scripts = [
     "simon.py",
     "deutsch_jozsa.py",

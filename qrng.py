@@ -4,8 +4,6 @@ from qiskit.visualization import plot_histogram
 import matplotlib.pyplot as plt
 
 def run_qrng(n_bits=8):
-    # We can generate one bit at a time or n bits at once.
-    # To be "true" RNG, we just measure |+> state.
     qc = QuantumCircuit(n_bits, n_bits)
     
     for i in range(n_bits):
@@ -15,8 +13,6 @@ def run_qrng(n_bits=8):
     
     simulator = Aer.get_backend('aer_simulator')
     transpiled_qc = transpile(qc, simulator)
-    # Just one shot if we want a random number k bits long.
-    # Or 1000 shots to show distribution is uniform.
     result = simulator.run(transpiled_qc, shots=1024).result()
     counts = result.get_counts()
     
@@ -28,15 +24,12 @@ if __name__ == "__main__":
     qc.draw('mpl').savefig('qrng_circuit.png')
     qc.draw('mpl').savefig('qrng_circuit.png')
     
-    # Convert bitstrings to integers for cleaner plotting
     int_counts = {}
     for bitstr, count in counts.items():
         val = int(bitstr, 2)
         int_counts[val] = count
     
-    # Plot integer distribution
     plt.figure(figsize=(10, 6))
-    # Sort by integer value
     sorted_keys = sorted(int_counts.keys())
     sorted_vals = [int_counts[k] for k in sorted_keys]
     
