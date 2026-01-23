@@ -78,7 +78,7 @@ def generate_html():
             border: 1px solid #ddd;
             border-radius: 4px;
         }}
-        .description {{ margin-bottom: 1rem; color: #555; }}
+        .description {{ margin-bottom: 1rem; color: #555; text-align: justify; }}
         footer {{
             text-align: center;
             margin-top: 3rem;
@@ -111,8 +111,12 @@ def generate_html():
 <div class="section">
     <h2>1. Simon's Algorithm</h2>
     <p class="description">
-        Simon's algorithm solves a black-box problem exponentially faster than any classical algorithm. 
-        Given a function f(x) such that f(x) = f(y) iff x ⊕ y ∈ {{0, s}}, the goal is to find the hidden string s.
+        Simon's algorithm provides one of the first concrete examples of an exponential speedup of a quantum algorithm over any 
+        deterministic classical algorithm. It addresses a specific black-box problem: given a function f(x) defined on n-bit strings 
+        such that f(x) = f(y) if and only if x = y or x ⊕ y = s, the goal is to identify the hidden period string s. While a 
+        classical computer would need to check exponentially many inputs to find a collision, Simon's algorithm uses quantum 
+        interference to find s with sophisticated efficiency, scaling polynomially with the number of qubits. This establishes 
+        oracles based on the Hidden Subgroup Problem as a powerful domain for quantum advantage.
     </p>
     <div class="results-container">
         <div class="result-box">
@@ -122,7 +126,7 @@ def generate_html():
         <div class="result-box">
             <h3>Measurement Results</h3>
             <img src="simon_hist.png" alt="Simon's Histogram">
-            <p>The results show bitstrings z such that z·s = 0 (mod 2).</p>
+            <p>The measurement results yield bitstrings z such that z·s = 0 (mod 2). By collecting enough linear independent samples, s is reconstructed.</p>
         </div>
     </div>
 </div>
@@ -130,8 +134,12 @@ def generate_html():
 <div class="section">
     <h2>2. Deutsch-Jozsa Algorithm</h2>
     <p class="description">
-        The Deutsch-Jozsa algorithm determines whether a given oracle function is constant or balanced with a single query,
-        showcasing quantum parallelism.
+        The Deutsch-Jozsa algorithm was the first to demonstrate a deterministic separation between quantum and classical computers. 
+        It solves a problem where we are given an oracle computing a boolean function f: {{0,1}}^n → {{0,1}} which is guaranteed 
+        to be either constant (same output for all inputs) or balanced (returns 0 for half the inputs and 1 for the other half). 
+        To determine which property the function holds, a classical algorithm requires 2^(n-1) + 1 queries in the worst case. 
+        Remarkably, the Deutsch-Jozsa algorithm solves this with a single quantum query by exploiting massive quantum parallelism 
+        and interference to distinguish the global property of the function.
     </p>
     <div class="results-container">
         <div class="result-box">
@@ -141,7 +149,7 @@ def generate_html():
         <div class="result-box">
             <h3>Measurement Results</h3>
             <img src="dj_hist.png" alt="Deutsch-Jozsa Histogram">
-            <p>Measuring '00...0' indicates a Constant function; any other result indicates Balanced.</p>
+            <p>A result of '00...0' definitively proves the function is Constant. Any other result proves it is Balanced.</p>
         </div>
     </div>
 </div>
@@ -149,7 +157,12 @@ def generate_html():
 <div class="section">
     <h2>3. Grover's Search Algorithm</h2>
     <p class="description">
-        Grover's algorithm provides a quadratic speedup for searching unsorted databases. It amplifies the amplitude of the target state.
+        Grover's algorithm tackles the fundamental problem of searching an unsorted database of N items to find a specific target item. 
+        Classically, this requires checking N/2 items on average and N items in the worst case, scaling as O(N). Grover's 
+        algorithm offers a quadratic speedup, finding the item in roughly (π/4)√N steps, or O(√N). It works by initializing 
+        a superposition of all possible states and iteratively applying an oracle (which marks the target) and a diffusion operator 
+        (which reflects amplitudes about the mean). This process amplifies the probability amplitude of the target state so that 
+        measurement yields the correct answer with high probability.
     </p>
     <div class="results-container">
         <div class="result-box">
@@ -159,7 +172,7 @@ def generate_html():
         <div class="result-box">
             <h3>Measurement Results</h3>
             <img src="grover_hist.png" alt="Grover's Histogram">
-            <p>High probability peak at the target state.</p>
+            <p>The target state's probability is significantly amplified, appearing as the dominant peak in the histogram.</p>
         </div>
     </div>
 </div>
@@ -167,8 +180,11 @@ def generate_html():
 <div class="section">
     <h2>4. Quantum Random Number Generation (QRNG)</h2>
     <p class="description">
-        QRNG exploits the inherent probabilistic nature of quantum measurement (collapsing simple superposition states) 
-        to generate true random numbers.
+        Unlike classical pseudo-random number generators (PRNGs) which rely on deterministic algorithms and seeds, Quantum Random 
+        Number Generators (QRNGs) operate based on the fundamental principles of quantum mechanics. By placing a qubit into a 
+        perfect superposition state (using a Hadamard gate) and then measuring it, the outcome is fundamentally indeterminate 
+        and truly random. This implementation utilizes this core property to generate sequences of unbiased random numbers, 
+        essential for cryptographic keys and high-fidelity simulations where true entropy is required.
     </p>
     <div class="results-container">
         <div class="result-box">
@@ -178,7 +194,7 @@ def generate_html():
         <div class="result-box">
             <h3>Distribution</h3>
             <img src="qrng_hist.png" alt="QRNG Histogram">
-            <p>Uniform distribution over all possible bitstrings.</p>
+            <p>The resulting integer distribution over many shots approaches a perfect uniform distribution.</p>
         </div>
     </div>
 </div>
@@ -186,14 +202,18 @@ def generate_html():
 <div class="section">
     <h2>5. Quantum Key Distribution (BB84)</h2>
     <p class="description">
-        The BB84 protocol allows two parties to securely share a key. This simulation demonstrates the sifting process 
-        where bases match.
+        The BB84 protocol is the first quantum cryptography protocol, developed by Bennett and Brassard in 1984. It allows two 
+        parties, Alice and Bob, to securely establish a shared secret key over an insecure channel. The security relies on the 
+        No-Cloning Theorem and the fact that measuring a quantum state generally disturbs it. In this simulation, Alice encodes 
+        bits in random bases (Rectilinear or Diagonal), and Bob measures them in random bases. After sifting (discarding bits 
+        where bases mismatched), they obtain a shared key. Any eavesdropper (Eve) trying to intercept the key introduces 
+        detectable errors, guaranteeing unconditional security.
     </p>
     <div class="results-container">
         <div class="result-box">
             <h3>Key Sifting Efficiency</h3>
             <img src="bb84_stats.png" alt="BB84 Statistics">
-            <p>Comparison of initial measured bits vs sifted key length (approx 50%).</p>
+            <p>The simulation compares the raw generated bits against the final distilled key, typically keeping ~50% of bits.</p>
         </div>
     </div>
 </div>
