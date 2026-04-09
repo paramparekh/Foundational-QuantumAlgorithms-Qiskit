@@ -3,9 +3,10 @@ import subprocess
 import datetime
 
 scripts = [
+    "vqe.py",
+    "grover.py",
     "simon.py",
     "deutsch_jozsa.py",
-    "grover.py",
     "qrng.py",
     "qkd_bb84.py"
 ]
@@ -13,12 +14,15 @@ scripts = [
 def run_scripts():
     print("Running quantum algorithms...")
     for script in scripts:
-        print(f"Executing {script}...")
-        try:
-            subprocess.run(["python", script], check=True)
-            print(f"Finished {script}")
-        except subprocess.CalledProcessError as e:
-            print(f"Error running {script}: {e}")
+        if os.path.exists(script):
+            print(f"Executing {script}...")
+            try:
+                subprocess.run(["python", script], check=True)
+                print(f"Finished {script}")
+            except subprocess.CalledProcessError as e:
+                print(f"Error running {script}: {e}")
+        else:
+            print(f"Script not found: {script}")
 
 def generate_html():
     current_date = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -132,58 +136,33 @@ def generate_html():
 
 <div class="section">
     <h2>Project Overview</h2>
-    <p class="description">This project demonstrates the implementation of five foundational quantum algorithms using <strong>Qiskit</strong>. 
-    The algorithms selected cover quantum oracles, search, randomness generation, and key distribution.</p>
+    <p class="description">This project demonstrates the implementation of foundational quantum algorithms using <strong>Qiskit</strong>. 
+    The algorithms showcase near-term quantum optimization tools, advanced search operations, quantum oracles, randomness generation, and key distribution paradigms.</p>
 </div>
 
 <div class="section">
-    <h2>1. Simon's Algorithm</h2>
+    <h2>1. Variational Quantum Eigensolver (VQE)</h2>
     <p class="description">
-        Simon's algorithm provides one of the first concrete examples of an exponential speedup of a quantum algorithm over any 
-        deterministic classical algorithm. It addresses a specific black-box problem: given a function f(x) defined on n-bit strings 
-        such that f(x) = f(y) if and only if x = y or x ⊕ y = s, the goal is to identify the hidden period string s. While a 
-        classical computer would need to check exponentially many inputs to find a collision, Simon's algorithm uses quantum 
-        interference to find s with sophisticated efficiency, scaling polynomially with the number of qubits. This establishes 
-        oracles based on the Hidden Subgroup Problem as a powerful domain for quantum advantage.
+        The Variational Quantum Eigensolver (VQE) is a flagship algorithm for noisy intermediate-scale quantum (NISQ) computers, enabling the computation 
+        of molecular ground-state energies or the minimum eigenvalue of a Hamiltonian. In this implementation, VQE uses a parameterized quantum circuit as 
+        an ansatz to prepare states securely and a classical optimizer (such as COBYLA) to iteratively update the parameters and minimize the expectation value 
+        of the target system's energy. It signifies a powerful hybrid approach where classical computation acts synergistically with quantum operations.
     </p>
     <div class="results-container">
         <div class="result-box">
-            <h3>Circuit Diagram</h3>
-            <img src="simon_circuit.png" alt="Simon's Circuit">
+            <h3>Ansatz Circuit Diagram</h3>
+            <img src="vqe_circuit.png" alt="VQE Circuit Ansatz">
         </div>
         <div class="result-box">
-            <h3>Measurement Results</h3>
-            <img src="simon_hist.png" alt="Simon's Histogram">
-            <p>The measurement results yield bitstrings z such that z·s = 0 (mod 2). By collecting enough linear independent samples, s is reconstructed.</p>
+            <h3>Energy Convergence</h3>
+            <img src="vqe_convergence.png" alt="VQE Energy Convergence">
+            <p>Demonstrates exponential convergence characteristics towards the exact minimum eigenvalue of the Hamiltonian.</p>
         </div>
     </div>
 </div>
 
 <div class="section">
-    <h2>2. Deutsch-Jozsa Algorithm</h2>
-    <p class="description">
-        The Deutsch-Jozsa algorithm was the first to demonstrate a deterministic separation between quantum and classical computers. 
-        It solves a problem where we are given an oracle computing a boolean function f: {{0,1}}^n → {{0,1}} which is guaranteed 
-        to be either constant (same output for all inputs) or balanced (returns 0 for half the inputs and 1 for the other half). 
-        To determine which property the function holds, a classical algorithm requires 2^(n-1) + 1 queries in the worst case. 
-        Remarkably, the Deutsch-Jozsa algorithm solves this with a single quantum query by exploiting massive quantum parallelism 
-        and interference to distinguish the global property of the function.
-    </p>
-    <div class="results-container">
-        <div class="result-box">
-            <h3>Circuit Diagram</h3>
-            <img src="dj_circuit.png" alt="Deutsch-Jozsa Circuit">
-        </div>
-        <div class="result-box">
-            <h3>Measurement Results</h3>
-            <img src="dj_hist.png" alt="Deutsch-Jozsa Histogram">
-            <p>A result of '00...0' definitively proves the function is Constant. Any other result proves it is Balanced.</p>
-        </div>
-    </div>
-</div>
-
-<div class="section">
-    <h2>3. Grover's Search Algorithm</h2>
+    <h2>2. Grover's Search Algorithm</h2>
     <p class="description">
         Grover's algorithm tackles the fundamental problem of searching an unsorted database of N items to find a specific target item. 
         Classically, this requires checking N/2 items on average and N items in the worst case, scaling as O(N). Grover's 
@@ -206,7 +185,53 @@ def generate_html():
 </div>
 
 <div class="section">
-    <h2>4. Quantum Random Number Generation (QRNG)</h2>
+    <h2>3. Simon's Algorithm</h2>
+    <p class="description">
+        Simon's algorithm provides one of the first concrete examples of an exponential speedup of a quantum algorithm over any 
+        deterministic classical algorithm. It addresses a specific black-box problem: given a function f(x) defined on n-bit strings 
+        such that f(x) = f(y) if and only if x = y or x ⊕ y = s, the goal is to identify the hidden period string s. While a 
+        classical computer would need to check exponentially many inputs to find a collision, Simon's algorithm uses quantum 
+        interference to find s with sophisticated efficiency, scaling polynomially with the number of qubits. This establishes 
+        oracles based on the Hidden Subgroup Problem as a powerful domain for quantum advantage.
+    </p>
+    <div class="results-container">
+        <div class="result-box">
+            <h3>Circuit Diagram</h3>
+            <img src="simon_circuit.png" alt="Simon's Circuit">
+        </div>
+        <div class="result-box">
+            <h3>Measurement Results</h3>
+            <img src="simon_hist.png" alt="Simon's Histogram">
+            <p>The measurement results yield bitstrings z such that z·s = 0 (mod 2). By collecting enough linear independent samples, s is reconstructed.</p>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>4. Deutsch-Jozsa Algorithm</h2>
+    <p class="description">
+        The Deutsch-Jozsa algorithm was the first to demonstrate a deterministic separation between quantum and classical computers. 
+        It solves a problem where we are given an oracle computing a boolean function f: {{0,1}}^n → {{0,1}} which is guaranteed 
+        to be either constant (same output for all inputs) or balanced (returns 0 for half the inputs and 1 for the other half). 
+        To determine which property the function holds, a classical algorithm requires 2^(n-1) + 1 queries in the worst case. 
+        Remarkably, the Deutsch-Jozsa algorithm solves this with a single quantum query by exploiting massive quantum parallelism 
+        and interference to distinguish the global property of the function.
+    </p>
+    <div class="results-container">
+        <div class="result-box">
+            <h3>Circuit Diagram</h3>
+            <img src="dj_circuit.png" alt="Deutsch-Jozsa Circuit">
+        </div>
+        <div class="result-box">
+            <h3>Measurement Results</h3>
+            <img src="dj_hist.png" alt="Deutsch-Jozsa Histogram">
+            <p>A result of '00...0' definitively proves the function is Constant. Any other result proves it is Balanced.</p>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>5. Quantum Random Number Generation (QRNG)</h2>
     <p class="description">
         Unlike classical pseudo-random number generators (PRNGs) which rely on deterministic algorithms and seeds, Quantum Random 
         Number Generators (QRNGs) operate based on the fundamental principles of quantum mechanics. By placing a qubit into a 
@@ -228,7 +253,7 @@ def generate_html():
 </div>
 
 <div class="section">
-    <h2>5. Quantum Key Distribution (BB84)</h2>
+    <h2>6. Quantum Key Distribution (BB84)</h2>
     <p class="description">
         The BB84 protocol is the first quantum cryptography protocol, developed by Bennett and Brassard in 1984. It allows two 
         parties, Alice and Bob, to securely establish a shared secret key over an insecure channel. The security relies on the 
@@ -247,7 +272,7 @@ def generate_html():
 </div>
 
 <footer>
-    <p>Project implemented on Qiskit | Deployed via GitHub Pages</p>
+    <p>Project implemented on Qiskit | Prepared for Internship Applications</p>
 </footer>
 
 </div> <!-- End Container -->

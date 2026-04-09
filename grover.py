@@ -1,80 +1,53 @@
-from qiskit import QuantumCircuit, transpile
-from qiskit_aer import Aer
-from qiskit.visualization import plot_histogram
-import numpy as np
+import math
+from qiskit import QuantumCircuit
+from qiskit.circuit.library import GroverOperator, MCMT, ZGate
+from qiskit.visualization import plot_distribution
+from qiskit_ibm_runtime import SamplerV2 as Sampler
+from qiskit_ibm_runtime.fake_provider import FakeFez
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
 
-def grover_oracle(target_state='101'):
-    n = len(target_state)
-    qc = QuantumCircuit(n)
-    
-    for i, char in enumerate(reversed(target_state)):
-        if char == '0':
-            qc.x(i)
-            
-    if n == 2:
-        qc.cz(0, 1)
-    elif n == 3:
-        qc.h(2)
-        qc.ccx(0, 1, 2)
-        qc.h(2)
-    else:
-        qc.cp(np.pi, list(range(n-1)), n-1)
-        pass 
-        
-    for i, char in enumerate(reversed(target_state)):
-        if char == '0':
-            qc.x(i)
-            
+def grover_oracle(marked_states):
+    if not isinstance(marked_states, list):
+        marked_states = [marked_states]
+    num_qubits = len(marked_states[0])
+    qc = QuantumCircuit(num_qubits)
+    for target in marked_states:
+        rev_target = target[::-1]
+        zero_inds = [ind for ind in range(num_qubits) if rev_target.startswith("0", ind)]
+        qc.x(zero_inds)
+        qc.compose(MCMT(ZGate(), num_qubits - 1, 1), inplace=True)
+        qc.x(zero_inds)
     return qc
 
-def diffuser(n):
-    qc = QuantumCircuit(n)
-    for i in range(n):
-        qc.h(i)
-    for i in range(n):
-        qc.x(i)
-        
-    if n == 2:
-        qc.cz(0, 1)
-    elif n == 3:
-        qc.h(2)
-        qc.ccx(0, 1, 2)
-        qc.h(2)
-        
-    for i in range(n):
-        qc.x(i)
-    for i in range(n):
-        qc.h(i)
-        
-    return qc
-
-def run_grover(target_state='101'):
-    n = len(target_state)
-    qc = QuantumCircuit(n, n)
+def main():
+    marked_states = ["011", "100"]
+    oracle = grover_oracle(marked_states)
+    grover_op = GroverOperator(oracle)
     
-    for i in range(n):
-        qc.h(i)
-        
-    iters = 1 if n==2 else 2
+    optimal_num_iterations = math.floor(
+        math.pi / (4 * math.asin(math.sqrt(len(marked_states) / 2**grover_op.num_qubits)))
+    )
     
-    oracle = grover_oracle(target_state)
-    diff = diffuser(n)
+    qc = QuantumCircuit(grover_op.num_qubits)
+    qc.h(range(grover_op.num_qubits))
+    qc.compose(grover_op.power(optimal_num_iterations), inplace=True)
+    qc.measure_all()
     
-    for _ in range(iters):
-        qc = qc.compose(oracle)
-        qc = qc.compose(diff)
-        
-    qc.measure(range(n), range(n))
+    qc.draw(output="mpl", style="iqp").savefig('grover_circuit.png')
     
-    simulator = Aer.get_backend('aer_simulator')
-    transpiled_qc = transpile(qc, simulator)
-    result = simulator.run(transpiled_qc, shots=1024).result()
-    counts = result.get_counts()
+    backend = FakeFez()
+    target = backend.target
+    pm = generate_preset_pass_manager(target=target, optimization_level=3)
+    circuit_isa = pm.run(qc)
     
-    return qc, counts
+    sampler = Sampler(mode=backend)
+    sampler.options.default_shots = 10_000
+    job = sampler.run([circuit_isa])
+    result = job.result()
+    dist = result[0].data.meas.get_counts()
+    
+    print("Grover counts:", dist)
+    plot_distribution(dist).savefig('grover_hist.png')
 
 if __name__ == "__main__":
-    qc, counts = run_grover('101')
-    print("Counts:", counts)
-    qc.draw('mpl').savefig('grover_circuit.png')
-    plot_histogram(counts).savefig('grover_hist.png')
+    main()
