@@ -7,7 +7,6 @@ scripts = [
     "grover.py",
     "simon.py",
     "deutsch_jozsa.py",
-    "qrng.py",
     "qkd_bb84.py"
 ]
 
@@ -231,29 +230,7 @@ def generate_html():
 </div>
 
 <div class="section">
-    <h2>5. Quantum Random Number Generation (QRNG)</h2>
-    <p class="description">
-        Unlike classical pseudo-random number generators (PRNGs) which rely on deterministic algorithms and seeds, Quantum Random 
-        Number Generators (QRNGs) operate based on the fundamental principles of quantum mechanics. By placing a qubit into a 
-        perfect superposition state (using a Hadamard gate) and then measuring it, the outcome is fundamentally indeterminate 
-        and truly random. This implementation utilizes this core property to generate sequences of unbiased random numbers, 
-        essential for cryptographic keys and high-fidelity simulations where true entropy is required.
-    </p>
-    <div class="results-container">
-        <div class="result-box">
-            <h3>Circuit Diagram</h3>
-            <img src="qrng_circuit.png" alt="QRNG Circuit">
-        </div>
-        <div class="result-box">
-            <h3>Distribution</h3>
-            <img src="qrng_hist.png" alt="QRNG Histogram">
-            <p>The resulting integer distribution over many shots approaches a perfect uniform distribution.</p>
-        </div>
-    </div>
-</div>
-
-<div class="section">
-    <h2>6. Quantum Key Distribution (BB84)</h2>
+    <h2>5. Quantum Key Distribution (BB84)</h2>
     <p class="description">
         The BB84 protocol is the first quantum cryptography protocol, developed by Bennett and Brassard in 1984. It allows two 
         parties, Alice and Bob, to securely establish a shared secret key over an insecure channel. The security relies on the 
