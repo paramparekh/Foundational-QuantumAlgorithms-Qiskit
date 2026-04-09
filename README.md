@@ -7,26 +7,20 @@
 
 > *Exploration of fundamental quantum computing algorithms implemented using Qiskit.*
 
-## 🔗 [Report](https://paramparekh.github.io/Foundational-QuantumAlgorithms-Qiskit/)
-
-Explore the interactive report with circuit diagrams, measurement histograms, and theoretical breakdowns deployed on GitHub Pages.
-
-*Also check out my implementation of [Quantum Error Correction Fundamentals](https://github.com/paramparekh/Quantum-Error-Correction-Fundamentals)!*
-
 ---
 
 ## 🌌 Overview
 
-This repository contains implementations of five cornerstone algorithms in quantum computing. Each implementation demonstrates a unique quantum advantage, from exponential speedups in oracle problems to information-theoretic security in cryptography.
+This repository contains implementations of five cornerstone algorithms in quantum computing. Each implementation demonstrates a unique quantum advantage, ranging from exponential speedups in oracle problems to hybrid quantum-classical optimization and information-theoretic cryptography.
 
 ## ⚡ Algorithms Implemented
 
 | Algorithm | Type | Quantum Advantage | Key Concept |
 |-----------|------|-------------------|-------------|
+| **VQE** | Optimization | Hybrid | Variational Quantum Eigensolver to compute minimum eigenvalues of Hamiltonians. |
+| **Grover's Search** | Search | Quadratic | Amplifying amplitude of target state $|w\rangle$ in $O(\sqrt{N})$ steps. |
 | **Simon's Algorithm** | Oracle | Exponential | Distinguishing $1$-to-$1$ vs $2$-to-$1$ functions using period finding $f(x) = f(x \oplus s)$. |
 | **Deutsch-Jozsa** | Oracle | Exponential | Determining if a function is Constant or Balanced with a single query. |
-| **Grover's Search** | Search | Quadratic | Amplifying amplitude of target state $|w\rangle$ in $O(\sqrt{N})$ steps. |
-| **QRNG** | Utility | True Randomness | Collapsing superposition states $\frac{|0\rangle + |1\rangle}{\sqrt{2}}$ to generate entropy. |
 | **QKD (BB84)** | Cryptography | Info-Theoretic | Secure key exchange observing qubit polarization states $|\psi\rangle$. |
 
 ## 🛠️ Installation & Usage
@@ -53,14 +47,21 @@ To run these simulations locally and generate your own quantum reports:
 ## 🧬 Repository Structure
 
 ```
-├── deutsch_jozsa.py   # Constant vs Balanced Oracle
+├── vqe.py             # Variational Quantum Eigensolver
 ├── grover.py          # Amplification of target state
-├── qkd_bb84.py        # BB84 Key Distribution Protocol
-├── qrng.py            # Hadamard-based randomness
 ├── simon.py           # Hidden subgroup problem
+├── deutsch_jozsa.py   # Constant vs Balanced Oracle
+├── qkd_bb84.py        # BB84 Key Distribution Protocol
 ├── generate_report.py # Automation script
 └── index.html         # Generated dashboard
 ```
+
+## 🔗 Report
+
+Explore the interactive report with circuit diagrams, measurement histograms, and theoretical breakdowns deployed on GitHub Pages:
+**[View Interactive Report Here!](https://paramparekh.github.io/Foundational-QuantumAlgorithms-Qiskit/)**
+
+*Also check out my implementation of [Quantum Error Correction Fundamentals](https://github.com/paramparekh/Quantum-Error-Correction-Fundamentals)!*
 
 ---
 
