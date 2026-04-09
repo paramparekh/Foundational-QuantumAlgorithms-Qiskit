@@ -11,6 +11,8 @@
 
 Explore the interactive report with circuit diagrams, measurement histograms, and theoretical breakdowns deployed on GitHub Pages.
 
+*Also check out my implementation of [Quantum Error Correction Fundamentals](https://github.com/paramparekh/Quantum-Error-Correction-Fundamentals)!*
+
 ---
 
 ## 🌌 Overview
