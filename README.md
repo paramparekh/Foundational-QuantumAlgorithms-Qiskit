@@ -7,7 +7,7 @@
 
 > *Exploration of fundamental quantum computing algorithms implemented using Qiskit.*
 
-## 🔗 [Live Inspection Report](https://paramparekh.github.io/Foundational-QuantumAlgorithms-Qiskit/)
+## 🔗 [Report](https://paramparekh.github.io/Foundational-QuantumAlgorithms-Qiskit/)
 
 Explore the interactive report with circuit diagrams, measurement histograms, and theoretical breakdowns deployed on GitHub Pages.
 
